@@ -1,9 +1,7 @@
 library multiselect;
 
-
 import 'package:flutter/material.dart';
 import 'package:states_rebuilder/states_rebuilder.dart';
-
 
 class _TheState {}
 
@@ -40,16 +38,28 @@ class _SelectRow extends StatelessWidget {
       },
       child: Container(
         height: kMinInteractiveDimension,
-        child: Row(
-          children: [
-            Checkbox(
-                value: selected,
-                onChanged: (x) {
-                  onChange(x!);
-                  _theState.notify();
-                }),
-            Text(text)
-          ],
+        child: CheckboxListTile(
+          title: RichText(
+            textAlign: TextAlign.left,
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: text,
+                  style: TextStyle(
+                    fontSize: 19,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          activeColor: const Color(0xff7B6F72),
+          value: selected,
+          onChanged: (x) {
+            onChange(x!);
+            _theState.notify();
+          },
+          controlAffinity: ListTileControlAffinity.leading,
         ),
       ),
     );
@@ -136,7 +146,6 @@ class _DropDownMultiSelectState<TState> extends State<DropDownMultiSelect<TState
       child: Stack(
         alignment: Alignment.centerLeft,
         children: [
-         
           Container(
             child: DropdownButtonFormField<TState>(
               hint: widget.hint,
@@ -216,7 +225,9 @@ class _DropDownMultiSelectState<TState> extends State<DropDownMultiSelect<TState
                   child: Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: Text(
-                      widget.selectedValues.length > 0 ? widget.selectedValues.map((e) => e.toString()).reduce((a, b) => a.toString() + ' , ' + b.toString()) : widget.whenEmpty ?? '',
+                      widget.selectedValues.length > 0
+                          ? widget.selectedValues.map((e) => e.toString()).reduce((a, b) => a.toString() + ' , ' + b.toString())
+                          : widget.whenEmpty ?? '',
                       style: widget.selected_values_style,
                     ),
                   ))),
